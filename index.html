@@ -5,7 +5,11 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Assassin</title>
-		<script defer src="main.js"></script>
+		<script>
+			globalThis.svgns = 'http://www.w3.org/2000/svg';
+		</script>
+		<script src="class/Assassin.js"></script>
+		<script defer src="events.js"></script>
 	</head>
 	<body style="height: 95vh">
 		<svg
@@ -14,15 +18,6 @@
 			version="1.1"
 			baseProfile="full"
 			xmlns="http://www.w3.org/2000/svg"
-		>
-			<circle
-				cx="500"
-				cy="500"
-				r="20"
-				stroke="green"
-				fill="transparent"
-				stroke-width="10"
-			/>
-		</svg>
+		></svg>
 	</body>
 </html>

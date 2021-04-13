@@ -1,31 +1,14 @@
-const circle = document.querySelector('circle');
+const assassin = new Assassin(50, 50);
+
 let interval;
 let moving = false;
-
-function moveCircle(direction) {
-	let x = circle.cx.baseVal.value;
-	let y = circle.cy.baseVal.value;
-	switch (direction) {
-		case 'up':
-			y--;
-			break;
-		case 'right':
-			x++;
-			break;
-		case 'down':
-			y++;
-			break;
-		case 'left':
-			x--;
-			break;
-		default:
-			return;
-	}
-	circle.cx.baseVal.value = x;
-	circle.cy.baseVal.value = y;
-}
+let speed = false;
 
 document.addEventListener('keydown', e => {
+	if (e.key === ' ') {
+		speed = true;
+	}
+	const step = speed === false ? 1 : 2;
 	let direction;
 	switch (e.key) {
 		case 'ArrowUp':
@@ -45,11 +28,12 @@ document.addEventListener('keydown', e => {
 	}
 	if (moving === false) {
 		moving = true;
-		interval = setInterval(moveCircle, 1, direction);
+		interval = setInterval(() => assassin.move(direction, step), 1);
 	}
 });
 
 document.addEventListener('keyup', () => {
 	moving = false;
+	speed = false;
 	clearInterval(interval);
 });
