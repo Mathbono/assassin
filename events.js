@@ -1,38 +1,44 @@
-const assassin = new Assassin(50, 50);
+const game = new Map(new Level1());
 
 let interval;
+let keysPressed = {};
 let moving = false;
 let speed = false;
 
 document.addEventListener('keydown', e => {
-	if (e.key === ' ') {
+	keysPressed[e.key] = true;
+	if (keysPressed[' ']) {
 		speed = true;
 	}
-	const step = speed === false ? 1 : 2;
 	let direction;
-	switch (e.key) {
-		case 'ArrowUp':
-			direction = 'up';
-			break;
-		case 'ArrowRight':
-			direction = 'right';
-			break;
-		case 'ArrowDown':
-			direction = 'down';
-			break;
-		case 'ArrowLeft':
-			direction = 'left';
-			break;
-		default:
-			return;
+	if (keysPressed['ArrowUp'] && keysPressed['ArrowRight']) {
+		direction = 'northeast';
+	} else if (keysPressed['ArrowDown'] && keysPressed['ArrowRight']) {
+		direction = 'southeast';
+	} else if (keysPressed['ArrowDown'] && keysPressed['ArrowLeft']) {
+		direction = 'southwest';
+	} else if (keysPressed['ArrowUp'] && keysPressed['ArrowLeft']) {
+		direction = 'northwest';
+	} else if (keysPressed['ArrowUp']) {
+		direction = 'north';
+	} else if (keysPressed['ArrowRight']) {
+		direction = 'east';
+	} else if (keysPressed['ArrowDown']) {
+		direction = 'south';
+	} else if (keysPressed['ArrowLeft']) {
+		direction = 'west';
 	}
 	if (moving === false) {
 		moving = true;
-		interval = setInterval(() => assassin.move(direction, step), 1);
+		interval = setInterval(
+			() => game.LEVEL.ASSASSIN.move(direction, speed),
+			1
+		);
 	}
 });
 
-document.addEventListener('keyup', () => {
+document.addEventListener('keyup', e => {
+	delete keysPressed[e.key];
 	moving = false;
 	speed = false;
 	clearInterval(interval);
