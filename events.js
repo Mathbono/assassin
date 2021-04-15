@@ -5,6 +5,15 @@ let keysPressed = {};
 let moving = false;
 let speed = false;
 
+window.addEventListener('resize', () => {
+	for (let wall of document.getElementsByTagName('polyline')) {
+		wall.remove();
+	}
+	for (let path of game.LEVELENTITIES.defineCoordWalls()) {
+		game.createPolylineElement(path);
+	}
+});
+
 document.addEventListener('keydown', e => {
 	keysPressed[e.key] = true;
 	if (keysPressed[' ']) {
@@ -31,7 +40,7 @@ document.addEventListener('keydown', e => {
 	if (moving === false) {
 		moving = true;
 		interval = setInterval(
-			() => game.LEVEL.ASSASSIN.move(direction, speed),
+			() => game.LEVELENTITIES.ASSASSIN.move(direction, speed),
 			1
 		);
 	}

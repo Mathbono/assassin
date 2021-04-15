@@ -20,19 +20,19 @@ class Character {
 			alert(this.id + ' initialisé hors de la Map !');
 			return;
 		}
-		this.x = xPercent + '%';
-		this.y = yPercent + '%';
-		this.r = '20';
+		this.x = xPercent;
+		this.y = 100 - yPercent;
+		this.r = 2;
 		this.fill = CHARACTER.color;
-		this.createElement();
+		this.createCircleElement();
 	}
 
-	createElement() {
+	createCircleElement() {
 		const character = document.createElementNS(globalThis.svgns, 'circle');
 		character.setAttribute('id', this.id);
-		character.setAttribute('cx', this.x);
-		character.setAttribute('cy', this.y);
-		character.setAttribute('r', this.r);
+		character.setAttribute('cx', this.x + '%');
+		character.setAttribute('cy', this.y + '%');
+		character.setAttribute('r', this.r + '%');
 		character.setAttribute('fill', this.fill);
 		document.querySelector('svg').appendChild(character);
 	}
