@@ -9,7 +9,7 @@ window.addEventListener('resize', () => {
 	for (let wall of document.getElementsByTagName('polyline')) {
 		wall.remove();
 	}
-	for (let path of game.LEVELENTITIES.defineCoordWalls()) {
+	for (let path of game.LEVELENTITIES.getCoordWalls()) {
 		game.createPolylineElement(path);
 	}
 });
@@ -17,6 +17,9 @@ window.addEventListener('resize', () => {
 document.addEventListener('keydown', e => {
 	keysPressed[e.key] = true;
 	if (keysPressed[' ']) {
+		//console.log('MAP: ', Map.walls);
+		//console.log('X: ', game.LEVELENTITIES.ASSASSIN.x);
+		//console.log('Y: ', game.LEVELENTITIES.ASSASSIN.y);
 		speed = true;
 	}
 	let direction;

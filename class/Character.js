@@ -37,6 +37,41 @@ class Character {
 		document.querySelector('svg').appendChild(character);
 	}
 
+	detectWall(direction) {
+		for (let [segment, point, limit1, limit2] of Map.walls) {
+			const pointCloseToSegment = segment === 'x' ? this.x : this.y;
+			const pointBetweenEnds = segment === 'x' ? this.y : this.x;
+			if (
+				Math.abs(pointCloseToSegment - point) < 20 &&
+				((limit1 < pointBetweenEnds && pointBetweenEnds < limit2) ||
+					(limit2 < pointBetweenEnds && pointBetweenEnds < limit1))
+			) {
+				if (segment === 'y' && point < pointCloseToSegment) {
+					if (direction !== 'north') {
+						return false;
+					}
+				}
+				if (segment === 'y' && point > pointCloseToSegment) {
+					if (direction !== 'south') {
+						return false;
+					}
+				}
+				if (segment === 'x' && point < pointCloseToSegment) {
+					if (direction !== 'west') {
+						return false;
+					}
+				}
+				if (segment === 'x' && point > pointCloseToSegment) {
+					if (direction !== 'east') {
+						return false;
+					}
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
 	move(direction, speed) {
 		const step =
 			speed === false
@@ -45,6 +80,9 @@ class Character {
 		const character = document.getElementById(this.id);
 		this.x = character.cx.baseVal.value;
 		this.y = character.cy.baseVal.value;
+		if (this.detectWall(direction) === true) {
+			return;
+		}
 		switch (direction) {
 			case 'north':
 				this.y -= step;
