@@ -15,6 +15,7 @@ class Map {
 				'polyline'
 			);
 			this.setPolylineElement(pathElement, pathPoints, id);
+			document.querySelector('svg').appendChild(pathElement);
 		}
 	}
 
@@ -34,7 +35,6 @@ class Map {
 		pathElement.setAttribute('fill', 'transparent');
 		pathElement.setAttribute('stroke', 'black');
 		pathElement.setAttribute('stroke-width', 5);
-		document.querySelector('svg').appendChild(pathElement);
 	}
 
 	getRenderLandscape() {

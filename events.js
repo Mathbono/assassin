@@ -13,6 +13,11 @@ window.addEventListener('resize', () => {
 		game.setPolylineElement(pathElement, pathPoints, id);
 	}
 	game.setRenderLandscape();
+	const target = game.LEVELENTITIES.TARGET;
+	target.setPathElement(document.getElementById(target.id + 'view'));
+	for (let guard of game.LEVELENTITIES.GUARDS) {
+		guard.setPathElement(document.getElementById(guard.id + 'view'));
+	}
 });
 
 document.addEventListener('keydown', e => {

@@ -25,6 +25,11 @@ class Character {
 		this.r = 2;
 		this.fill = CHARACTER.color;
 		this.createCircleElement();
+		if (this.CHARACTER.name !== 'assassin') {
+			const view = document.createElementNS(globalThis.svgns, 'path');
+			this.setPathElement(view);
+			document.querySelector('svg').appendChild(view);
+		}
 	}
 
 	createCircleElement() {
@@ -35,6 +40,19 @@ class Character {
 		character.setAttribute('r', this.r + '%');
 		character.setAttribute('fill', this.fill);
 		document.querySelector('svg').appendChild(character);
+	}
+
+	setPathElement(view) {
+		const W = document.body.offsetWidth;
+		const H = document.body.offsetHeight;
+		const characterX = (this.x / 100) * W - 50;
+		const characterY = (this.y / 100) * H - 150;
+		view.setAttribute('id', this.id + 'view');
+		view.setAttribute(
+			'd',
+			'M' + characterX + ' ' + characterY + ' q 50 300 100 0 Z'
+		);
+		view.setAttribute('fill', 'green');
 	}
 
 	detectWall(direction) {
