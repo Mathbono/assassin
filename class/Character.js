@@ -38,31 +38,38 @@ class Character {
 	}
 
 	detectWall(direction) {
-		for (let [segment, point, limit1, limit2] of Map.walls) {
-			const pointCloseToSegment = segment === 'x' ? this.x : this.y;
-			const pointBetweenEnds = segment === 'x' ? this.y : this.x;
+		for (let [point, segment, limit1, limit2] of Map.landscape) {
+			const pointCloseToSegment = point === 'x' ? this.x : this.y;
+			const pointBetweenEnds = point === 'x' ? this.y : this.x;
 			if (
-				Math.abs(pointCloseToSegment - point) < 20 &&
+				Math.abs(pointCloseToSegment - segment) < 20 &&
+				(Math.abs(pointBetweenEnds - limit1) < 10 ||
+					Math.abs(pointBetweenEnds - limit2) < 10)
+			) {
+				return true;
+			}
+			if (
+				Math.abs(pointCloseToSegment - segment) < 20 &&
 				((limit1 < pointBetweenEnds && pointBetweenEnds < limit2) ||
 					(limit2 < pointBetweenEnds && pointBetweenEnds < limit1))
 			) {
-				if (segment === 'y' && point < pointCloseToSegment) {
-					if (direction !== 'north') {
+				if (point === 'y' && segment < pointCloseToSegment) {
+					if (direction !== 'up') {
 						return false;
 					}
 				}
-				if (segment === 'y' && point > pointCloseToSegment) {
-					if (direction !== 'south') {
+				if (point === 'y' && segment > pointCloseToSegment) {
+					if (direction !== 'bottom') {
 						return false;
 					}
 				}
-				if (segment === 'x' && point < pointCloseToSegment) {
-					if (direction !== 'west') {
+				if (point === 'x' && segment < pointCloseToSegment) {
+					if (direction !== 'right') {
 						return false;
 					}
 				}
-				if (segment === 'x' && point > pointCloseToSegment) {
-					if (direction !== 'east') {
+				if (point === 'x' && segment > pointCloseToSegment) {
+					if (direction !== 'left') {
 						return false;
 					}
 				}
@@ -84,33 +91,17 @@ class Character {
 			return;
 		}
 		switch (direction) {
-			case 'north':
+			case 'up':
 				this.y -= step;
 				break;
-			case 'east':
+			case 'left':
 				this.x += step;
 				break;
-			case 'south':
+			case 'bottom':
 				this.y += step;
 				break;
-			case 'west':
+			case 'right':
 				this.x -= step;
-				break;
-			case 'northeast':
-				this.y -= step;
-				this.x += step;
-				break;
-			case 'southeast':
-				this.x += step;
-				this.y += step;
-				break;
-			case 'southwest':
-				this.x -= step;
-				this.y += step;
-				break;
-			case 'northwest':
-				this.x -= step;
-				this.y -= step;
 				break;
 			default:
 				return;

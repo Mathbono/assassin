@@ -6,39 +6,32 @@ let moving = false;
 let speed = false;
 
 window.addEventListener('resize', () => {
-	for (let wall of document.getElementsByTagName('polyline')) {
-		wall.remove();
+	const landscape = game.LEVELENTITIES.getPointsLandscape();
+	for (let pathPoints of landscape) {
+		const id = landscape.indexOf(pathPoints);
+		const pathElement = document.getElementById('path' + id);
+		game.setPolylineElement(pathElement, pathPoints, id);
 	}
-	for (let path of game.LEVELENTITIES.getCoordWalls()) {
-		game.createPolylineElement(path);
-	}
+	game.setRenderLandscape();
 });
 
 document.addEventListener('keydown', e => {
 	keysPressed[e.key] = true;
 	if (keysPressed[' ']) {
-		//console.log('MAP: ', Map.walls);
-		//console.log('X: ', game.LEVELENTITIES.ASSASSIN.x);
-		//console.log('Y: ', game.LEVELENTITIES.ASSASSIN.y);
+		console.log('MAP: ', Map.landscape);
+		console.log('X: ', game.LEVELENTITIES.ASSASSIN.x);
+		console.log('Y: ', game.LEVELENTITIES.ASSASSIN.y);
 		speed = true;
 	}
 	let direction;
-	if (keysPressed['ArrowUp'] && keysPressed['ArrowRight']) {
-		direction = 'northeast';
-	} else if (keysPressed['ArrowDown'] && keysPressed['ArrowRight']) {
-		direction = 'southeast';
-	} else if (keysPressed['ArrowDown'] && keysPressed['ArrowLeft']) {
-		direction = 'southwest';
-	} else if (keysPressed['ArrowUp'] && keysPressed['ArrowLeft']) {
-		direction = 'northwest';
-	} else if (keysPressed['ArrowUp']) {
-		direction = 'north';
+	if (keysPressed['ArrowUp']) {
+		direction = 'up';
 	} else if (keysPressed['ArrowRight']) {
-		direction = 'east';
+		direction = 'left';
 	} else if (keysPressed['ArrowDown']) {
-		direction = 'south';
+		direction = 'bottom';
 	} else if (keysPressed['ArrowLeft']) {
-		direction = 'west';
+		direction = 'right';
 	}
 	if (moving === false) {
 		moving = true;

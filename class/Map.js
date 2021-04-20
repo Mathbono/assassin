@@ -1,14 +1,20 @@
 class Map {
-	static walls;
+	static landscape;
 	LEVELENTITIES;
 
 	constructor(LEVELENTITIES) {
 		this.LEVELENTITIES = LEVELENTITIES;
 		this.createSvgElement();
-		Map.walls = this.LEVELENTITIES.getDrawingWalls();
-		this.LEVELENTITIES.getInitialCoordCharacters();
-		for (let path of this.LEVELENTITIES.getCoordWalls()) {
-			this.createPolylineElement(path);
+		this.setRenderLandscape();
+		this.LEVELENTITIES.getInitialPointsCharacters();
+		const landscape = this.LEVELENTITIES.getPointsLandscape();
+		for (let pathPoints of landscape) {
+			const id = landscape.indexOf(pathPoints);
+			const pathElement = document.createElementNS(
+				globalThis.svgns,
+				'polyline'
+			);
+			this.setPolylineElement(pathElement, pathPoints, id);
 		}
 	}
 
@@ -22,12 +28,36 @@ class Map {
 		document.body.appendChild(svg);
 	}
 
-	createPolylineElement(path) {
-		const wall = document.createElementNS(globalThis.svgns, 'polyline');
-		wall.setAttribute('points', path.toString());
-		wall.setAttribute('fill', 'transparent');
-		wall.setAttribute('stroke', 'black');
-		wall.setAttribute('stroke-width', 5);
-		document.querySelector('svg').appendChild(wall);
+	setPolylineElement(pathElement, pathPoints, id) {
+		pathElement.setAttribute('id', 'path' + id);
+		pathElement.setAttribute('points', pathPoints.toString());
+		pathElement.setAttribute('fill', 'transparent');
+		pathElement.setAttribute('stroke', 'black');
+		pathElement.setAttribute('stroke-width', 5);
+		document.querySelector('svg').appendChild(pathElement);
+	}
+
+	getRenderLandscape() {
+		const paths = [];
+		for (let path of this.LEVELENTITIES.getPointsLandscape()) {
+			for (let i = 0; i < path.length; i++) {
+				if (i > 0) {
+					const [x1, y1] = path[i - 1];
+					const [x2, y2] = path[i];
+					if (x1 === x2) {
+						paths.push(['x', x1, y1, y2]);
+					} else if (y1 === y2) {
+						paths.push(['y', y1, x1, x2]);
+					} else {
+						alert("La diagonale n'est pas permise parmi les murs !");
+					}
+				}
+			}
+		}
+		return paths;
+	}
+
+	setRenderLandscape() {
+		Map.landscape = this.getRenderLandscape();
 	}
 }
