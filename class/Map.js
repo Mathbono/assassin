@@ -9,7 +9,7 @@ class Map {
 		this.LEVELENTITIES.getInitialPointsCharacters();
 		const landscape = this.LEVELENTITIES.getPointsLandscape();
 		for (let pathPoints of landscape) {
-			const id = landscape.indexOf(pathPoints);
+			const id = landscape.indexOf(pathPoints) + 1;
 			const pathElement = document.createElementNS(
 				globalThis.svgns,
 				'polyline'
@@ -21,8 +21,6 @@ class Map {
 
 	createSvgElement() {
 		const svg = document.createElementNS(globalThis.svgns, 'svg');
-		svg.setAttribute('width', 100 + '%');
-		svg.setAttribute('height', 100 + '%');
 		svg.setAttribute('version', '1.1');
 		svg.setAttribute('baseProfile', 'full');
 		svg.setAttribute('xmlns', globalThis.svgns);

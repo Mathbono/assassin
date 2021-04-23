@@ -52,7 +52,7 @@ class Character {
 			'd',
 			'M' + characterX + ' ' + characterY + ' q 50 300 100 0 Z'
 		);
-		view.setAttribute('fill', 'green');
+		view.setAttribute('fill', 'rgb(0, 255, 0, .3)');
 	}
 
 	detectWall(direction) {

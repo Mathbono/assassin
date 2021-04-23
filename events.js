@@ -8,7 +8,7 @@ let speed = false;
 window.addEventListener('resize', () => {
 	const landscape = game.LEVELENTITIES.getPointsLandscape();
 	for (let pathPoints of landscape) {
-		const id = landscape.indexOf(pathPoints);
+		const id = landscape.indexOf(pathPoints) + 1;
 		const pathElement = document.getElementById('path' + id);
 		game.setPolylineElement(pathElement, pathPoints, id);
 	}
