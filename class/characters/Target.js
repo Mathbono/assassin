@@ -8,6 +8,6 @@ class Target {
 		this.id = 1;
 		this.name = 'target';
 		this.color = 'gold';
-		this.baseSpeed = 2;
+		this.baseSpeed = 1;
 	}
 }

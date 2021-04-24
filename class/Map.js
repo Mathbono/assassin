@@ -7,16 +7,7 @@ class Map {
 		this.createSvgElement();
 		this.setRenderLandscape();
 		this.LEVELENTITIES.getInitialPointsCharacters();
-		const landscape = this.LEVELENTITIES.getPointsLandscape();
-		for (let pathPoints of landscape) {
-			const id = landscape.indexOf(pathPoints) + 1;
-			const pathElement = document.createElementNS(
-				globalThis.svgns,
-				'polyline'
-			);
-			this.setPolylineElement(pathElement, pathPoints, id);
-			document.querySelector('svg').appendChild(pathElement);
-		}
+		this.createPolylineElement();
 	}
 
 	createSvgElement() {
@@ -27,12 +18,25 @@ class Map {
 		document.body.appendChild(svg);
 	}
 
-	setPolylineElement(pathElement, pathPoints, id) {
-		pathElement.setAttribute('id', 'path' + id);
+	createPolylineElement() {
+		const landscape = this.LEVELENTITIES.getPointsLandscape();
+		for (let pathPoints of landscape) {
+			const id = landscape.indexOf(pathPoints) + 1;
+			const pathElement = document.createElementNS(
+				globalThis.svgns,
+				'polyline'
+			);
+			pathElement.setAttribute('id', 'path' + id);
+			this.setPolylineElement(pathElement, pathPoints);
+			pathElement.setAttribute('fill', 'transparent');
+			pathElement.setAttribute('stroke', '#3e2723');
+			pathElement.setAttribute('stroke-width', 10);
+			document.querySelector('svg').appendChild(pathElement);
+		}
+	}
+
+	setPolylineElement(pathElement, pathPoints) {
 		pathElement.setAttribute('points', pathPoints.toString());
-		pathElement.setAttribute('fill', 'transparent');
-		pathElement.setAttribute('stroke', 'black');
-		pathElement.setAttribute('stroke-width', 5);
 	}
 
 	getRenderLandscape() {
