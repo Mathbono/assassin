@@ -1,12 +1,12 @@
-class Map {
+export default class Map {
 	static landscape;
-	LEVELENTITIES;
+	levelCharacters;
 
-	constructor(LEVELENTITIES) {
-		this.LEVELENTITIES = LEVELENTITIES;
+	constructor(levelCharacters) {
+		this.levelCharacters = levelCharacters;
 		this.createSvgElement();
 		this.setRenderLandscape();
-		this.LEVELENTITIES.getInitialPointsCharacters();
+		this.levelCharacters.getInitialPointsCharacters();
 		this.createPolylineElement();
 	}
 
@@ -19,7 +19,7 @@ class Map {
 	}
 
 	createPolylineElement() {
-		const landscape = this.LEVELENTITIES.getPointsLandscape();
+		const landscape = this.levelCharacters.getPointsLandscape();
 		for (let pathPoints of landscape) {
 			const id = landscape.indexOf(pathPoints) + 1;
 			const pathElement = document.createElementNS(
@@ -41,7 +41,7 @@ class Map {
 
 	getRenderLandscape() {
 		const paths = [];
-		for (let path of this.LEVELENTITIES.getPointsLandscape()) {
+		for (let path of this.levelCharacters.getPointsLandscape()) {
 			for (let i = 0; i < path.length; i++) {
 				if (i > 0) {
 					const [x1, y1] = path[i - 1];

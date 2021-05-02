@@ -1,4 +1,4 @@
-class Assassin {
+export default class Assassin {
 	id;
 	name;
 	color;

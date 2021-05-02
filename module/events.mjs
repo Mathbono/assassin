@@ -1,7 +1,44 @@
-moveCharacter(target);
-for (let guard of guards) {
-	moveCharacter(guard);
+import level from './game.mjs';
+import Map from './class/Map.mjs';
+
+function moveCharacter(character, forbiddenDirection = null) {
+	const allowedDirections = ['up', 'right', 'down', 'left'];
+	if (forbiddenDirection !== null) {
+		allowedDirections.splice(
+			allowedDirections.indexOf(forbiddenDirection),
+			1
+		);
+	}
+	const direction =
+		allowedDirections[Math.floor(Math.random() * allowedDirections.length)];
+	const interval = setInterval(() => {
+		character.move(direction, false);
+		if (character.collision === true) {
+			clearInterval(interval);
+			setTimeout(() => moveCharacter(character, direction), 2000);
+		}
+	}, 1);
 }
+
+let LevelEntities;
+let game;
+let assassin;
+let target;
+let guards;
+
+document.addEventListener('DOMContentLoaded', async () => {
+	LevelEntities = await import(`./class/levels/Level${level}.mjs`).then(
+		({default: mod}) => mod
+	);
+	game = new Map(new LevelEntities());
+	assassin = game.levelCharacters.assassin;
+	target = game.levelCharacters.target;
+	guards = game.levelCharacters.guards;
+	moveCharacter(target);
+	for (let guard of guards) {
+		moveCharacter(guard);
+	}
+});
 
 let interval;
 let keysPressed = {};
@@ -9,7 +46,7 @@ let moving = false;
 let speed = false;
 
 window.addEventListener('resize', () => {
-	const landscape = game.LEVELENTITIES.getPointsLandscape();
+	const landscape = game.levelCharacters.getPointsLandscape();
 	for (let pathPoints of landscape) {
 		const id = landscape.indexOf(pathPoints) + 1;
 		const pathElement = document.getElementById('path' + id);

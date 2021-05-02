@@ -1,15 +1,20 @@
-class Level1 {
-	ASSASSIN;
-	TARGET;
-	GUARDS = [];
+import Character from '../Character.mjs';
+import Assassin from '../characters/Assassin.mjs';
+import Target from '../characters/Target.mjs';
+import Guard from '../characters/Guard.mjs';
+
+export default class Level1 {
+	assassin;
+	target;
+	guards = [];
 
 	getInitialPointsCharacters() {
-		this.TARGET = new Character(new Target(), 10, 10);
-		this.GUARDS.push(
+		this.target = new Character(new Target(), 10, 10);
+		this.guards.push(
 			new Character(new Guard(), 20, 20),
 			new Character(new Guard(), 75, 75)
 		);
-		this.ASSASSIN = new Character(new Assassin(), 50, 50);
+		this.assassin = new Character(new Assassin(), 50, 50);
 	}
 
 	getPointsLandscape() {

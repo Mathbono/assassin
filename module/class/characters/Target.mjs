@@ -1,4 +1,4 @@
-class Target {
+export default class Target {
 	id;
 	name;
 	color;

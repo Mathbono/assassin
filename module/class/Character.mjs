@@ -1,5 +1,7 @@
-class Character {
-	CHARACTER;
+import Map from './Map.mjs';
+
+export default class Character {
+	character;
 	id;
 	x;
 	y;
@@ -8,9 +10,9 @@ class Character {
 	r;
 	fill;
 
-	constructor(CHARACTER, xPercent, yPercent) {
-		this.CHARACTER = CHARACTER;
-		this.id = this.CHARACTER.name + this.CHARACTER.id;
+	constructor(character, xPercent, yPercent) {
+		this.character = character;
+		this.id = this.character.name + this.character.id;
 		if (
 			isNaN(xPercent) ||
 			xPercent < 0 ||
@@ -28,8 +30,8 @@ class Character {
 		this.direction = 'right';
 		this.collision = false;
 		this.r = 1.5;
-		this.fill = CHARACTER.color;
-		if (this.CHARACTER.name !== 'assassin') {
+		this.fill = character.color;
+		if (this.character.name !== 'assassin') {
 			const viewElement = document.createElementNS(globalThis.svgns, 'path');
 			viewElement.setAttribute('id', this.id + 'view');
 			this.setPathElement(viewElement, true);
@@ -137,8 +139,8 @@ class Character {
 		this.collision = false;
 		const step =
 			speed === false
-				? this.CHARACTER.baseSpeed
-				: this.CHARACTER.baseSpeed + 1;
+				? this.character.baseSpeed
+				: this.character.baseSpeed + 1;
 		const character = document.getElementById(this.id);
 		this.x = character.cx.baseVal.value;
 		this.y = character.cy.baseVal.value;
@@ -164,7 +166,7 @@ class Character {
 		}
 		character.cx.baseVal.value = this.x;
 		character.cy.baseVal.value = this.y;
-		if (this.CHARACTER.name !== 'assassin') {
+		if (this.character.name !== 'assassin') {
 			this.setPathElement(document.getElementById(this.id + 'view'));
 		}
 	}

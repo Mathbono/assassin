@@ -1,4 +1,4 @@
-class Guard {
+export default class Guard {
 	static id = 0;
 	id;
 	name;

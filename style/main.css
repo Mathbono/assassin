@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import 'sanitize.css';
 
 body {
 	margin: 1% auto 0;
