@@ -91,45 +91,34 @@ export default class Character {
 	}
 
 	detectWall() {
-		for (let [point, segment, limit1, limit2] of Map.landscape) {
+		const forbiddenDirections = [];
+		for (let [point, segment, limit1, limit2] of Map.segments) {
 			const characterCloseToSegment = point === 'x' ? this.x : this.y;
 			const characterBetweenLimits = point === 'x' ? this.y : this.x;
 			if (
-				// Attention aux angles
-				(Math.abs(characterCloseToSegment - segment) < 20 &&
-					((limit1 < characterBetweenLimits &&
-						characterBetweenLimits < limit2 - 20) ||
-						(limit2 < characterBetweenLimits &&
-							characterBetweenLimits < limit1 + 20))) ||
-				// Je ne peux pas me rapprocher frontalement d'un segment
-				(Math.abs(characterCloseToSegment - segment) < 20 &&
-					(Math.abs(characterBetweenLimits - limit1) < 10 ||
-						Math.abs(characterBetweenLimits - limit2) < 10))
+				Math.abs(characterCloseToSegment - segment) < 20 &&
+				((limit1 < characterBetweenLimits &&
+					characterBetweenLimits < limit2) ||
+					(limit2 < characterBetweenLimits &&
+						characterBetweenLimits < limit1) ||
+					Math.abs(characterBetweenLimits - limit1) < 10 ||
+					Math.abs(characterBetweenLimits - limit2) < 10)
 			) {
 				if (point === 'y' && segment < characterCloseToSegment) {
-					if (this.direction !== 'up') {
-						return false;
-					}
+					forbiddenDirections.push('up');
 				}
 				if (point === 'x' && segment > characterCloseToSegment) {
-					if (this.direction !== 'right') {
-						return false;
-					}
+					forbiddenDirections.push('right');
 				}
 				if (point === 'y' && segment > characterCloseToSegment) {
-					if (this.direction !== 'down') {
-						return false;
-					}
+					forbiddenDirections.push('down');
 				}
 				if (point === 'x' && segment < characterCloseToSegment) {
-					if (this.direction !== 'left') {
-						return false;
-					}
+					forbiddenDirections.push('left');
 				}
-				return true;
 			}
 		}
-		return false;
+		return forbiddenDirections.includes(this.direction);
 	}
 
 	move(direction, speed) {

@@ -1,7 +1,7 @@
 import {svgns} from '../constants.mjs';
 
 export default class Map {
-	static landscape;
+	static segments;
 	levelCharacters;
 
 	constructor(levelCharacters) {
@@ -21,12 +21,12 @@ export default class Map {
 	}
 
 	createPolylineElement() {
-		const landscape = this.levelCharacters.getPointsLandscape();
-		for (let pathPoints of landscape) {
-			const id = landscape.indexOf(pathPoints) + 1;
+		const segments = this.levelCharacters.getPointsLandscape();
+		for (let segment of segments) {
+			const id = segments.indexOf(segment) + 1;
 			const pathElement = document.createElementNS(svgns, 'polyline');
 			pathElement.setAttribute('id', 'path' + id);
-			this.setPolylineElement(pathElement, pathPoints);
+			this.setPolylineElement(pathElement, segment);
 			pathElement.setAttribute('fill', 'transparent');
 			pathElement.setAttribute('stroke', '#3e2723');
 			pathElement.setAttribute('stroke-width', 10);
@@ -34,8 +34,8 @@ export default class Map {
 		}
 	}
 
-	setPolylineElement(pathElement, pathPoints) {
-		pathElement.setAttribute('points', pathPoints.toString());
+	setPolylineElement(pathElement, segment) {
+		pathElement.setAttribute('points', segment.toString());
 	}
 
 	getRenderLandscape() {
@@ -59,6 +59,6 @@ export default class Map {
 	}
 
 	setRenderLandscape() {
-		Map.landscape = this.getRenderLandscape();
+		Map.segments = this.getRenderLandscape();
 	}
 }

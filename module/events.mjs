@@ -29,11 +29,11 @@ let moving = false;
 let speed = false;
 
 window.addEventListener('resize', () => {
-	const landscape = game.levelCharacters.getPointsLandscape();
-	for (let pathPoints of landscape) {
-		const id = landscape.indexOf(pathPoints) + 1;
+	const segments = game.levelCharacters.getPointsLandscape();
+	for (let segment of segments) {
+		const id = segments.indexOf(segment) + 1;
 		const pathElement = document.getElementById('path' + id);
-		game.setPolylineElement(pathElement, pathPoints);
+		game.setPolylineElement(pathElement, segment);
 	}
 	game.setRenderLandscape();
 	target.setPathElement(document.getElementById(target.id + 'view'), true);
@@ -45,7 +45,7 @@ window.addEventListener('resize', () => {
 document.addEventListener('keydown', e => {
 	keysPressed[e.key] = true;
 	if (keysPressed[' ']) {
-		console.log('MAP: ', Map.landscape);
+		console.log('MAP: ', Map.segments);
 		console.log('X: ', assassin.x);
 		console.log('Y: ', assassin.y);
 		speed = true;
@@ -62,8 +62,7 @@ document.addEventListener('keydown', e => {
 	}
 	if (moving === false) {
 		moving = true;
-		//interval = setInterval(() => assassin.move(direction, speed), 1);
-		assassin.move(direction, speed);
+		interval = setInterval(() => assassin.move(direction, speed), 1);
 	}
 });
 
