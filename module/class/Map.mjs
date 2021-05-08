@@ -1,3 +1,5 @@
+import {svgns} from '../constants.mjs';
+
 export default class Map {
 	static landscape;
 	levelCharacters;
@@ -11,10 +13,10 @@ export default class Map {
 	}
 
 	createSvgElement() {
-		const svg = document.createElementNS(globalThis.svgns, 'svg');
+		const svg = document.createElementNS(svgns, 'svg');
 		svg.setAttribute('version', '1.1');
 		svg.setAttribute('baseProfile', 'full');
-		svg.setAttribute('xmlns', globalThis.svgns);
+		svg.setAttribute('xmlns', svgns);
 		document.body.appendChild(svg);
 	}
 
@@ -22,10 +24,7 @@ export default class Map {
 		const landscape = this.levelCharacters.getPointsLandscape();
 		for (let pathPoints of landscape) {
 			const id = landscape.indexOf(pathPoints) + 1;
-			const pathElement = document.createElementNS(
-				globalThis.svgns,
-				'polyline'
-			);
+			const pathElement = document.createElementNS(svgns, 'polyline');
 			pathElement.setAttribute('id', 'path' + id);
 			this.setPolylineElement(pathElement, pathPoints);
 			pathElement.setAttribute('fill', 'transparent');

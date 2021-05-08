@@ -1,4 +1,5 @@
 import Map from './Map.mjs';
+import {svgns} from '../constants.mjs';
 
 export default class Character {
 	character;
@@ -32,7 +33,7 @@ export default class Character {
 		this.r = 1.5;
 		this.fill = character.color;
 		if (this.character.name !== 'assassin') {
-			const viewElement = document.createElementNS(globalThis.svgns, 'path');
+			const viewElement = document.createElementNS(svgns, 'path');
 			viewElement.setAttribute('id', this.id + 'view');
 			this.setPathElement(viewElement, true);
 			viewElement.setAttribute('fill', 'rgb(0, 255, 0, .3)');
@@ -42,10 +43,7 @@ export default class Character {
 	}
 
 	createCircleElement() {
-		const characterElement = document.createElementNS(
-			globalThis.svgns,
-			'circle'
-		);
+		const characterElement = document.createElementNS(svgns, 'circle');
 		characterElement.setAttribute('id', this.id);
 		characterElement.setAttribute('cx', this.x + '%');
 		characterElement.setAttribute('cy', this.y + '%');
@@ -94,36 +92,36 @@ export default class Character {
 
 	detectWall() {
 		for (let [point, segment, limit1, limit2] of Map.landscape) {
-			const pointCloseToSegment = point === 'x' ? this.x : this.y;
-			const pointBetweenEnds = point === 'x' ? this.y : this.x;
+			const characterCloseToSegment = point === 'x' ? this.x : this.y;
+			const characterBetweenLimits = point === 'x' ? this.y : this.x;
 			if (
-				Math.abs(pointCloseToSegment - segment) < 20 &&
-				(Math.abs(pointBetweenEnds - limit1) < 10 ||
-					Math.abs(pointBetweenEnds - limit2) < 10)
+				// Attention aux angles
+				(Math.abs(characterCloseToSegment - segment) < 20 &&
+					((limit1 < characterBetweenLimits &&
+						characterBetweenLimits < limit2 - 20) ||
+						(limit2 < characterBetweenLimits &&
+							characterBetweenLimits < limit1 + 20))) ||
+				// Je ne peux pas me rapprocher frontalement d'un segment
+				(Math.abs(characterCloseToSegment - segment) < 20 &&
+					(Math.abs(characterBetweenLimits - limit1) < 10 ||
+						Math.abs(characterBetweenLimits - limit2) < 10))
 			) {
-				return true;
-			}
-			if (
-				Math.abs(pointCloseToSegment - segment) < 20 &&
-				((limit1 < pointBetweenEnds && pointBetweenEnds < limit2) ||
-					(limit2 < pointBetweenEnds && pointBetweenEnds < limit1))
-			) {
-				if (point === 'y' && segment < pointCloseToSegment) {
+				if (point === 'y' && segment < characterCloseToSegment) {
 					if (this.direction !== 'up') {
 						return false;
 					}
 				}
-				if (point === 'y' && segment > pointCloseToSegment) {
-					if (this.direction !== 'down') {
-						return false;
-					}
-				}
-				if (point === 'x' && segment < pointCloseToSegment) {
+				if (point === 'x' && segment > characterCloseToSegment) {
 					if (this.direction !== 'right') {
 						return false;
 					}
 				}
-				if (point === 'x' && segment > pointCloseToSegment) {
+				if (point === 'y' && segment > characterCloseToSegment) {
+					if (this.direction !== 'down') {
+						return false;
+					}
+				}
+				if (point === 'x' && segment < characterCloseToSegment) {
 					if (this.direction !== 'left') {
 						return false;
 					}

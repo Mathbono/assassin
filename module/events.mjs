@@ -1,24 +1,7 @@
-import level from './game.mjs';
 import Map from './class/Map.mjs';
+import moveCharacter from './actions/moveCharacter.mjs';
 
-function moveCharacter(character, forbiddenDirection = null) {
-	const allowedDirections = ['up', 'right', 'down', 'left'];
-	if (forbiddenDirection !== null) {
-		allowedDirections.splice(
-			allowedDirections.indexOf(forbiddenDirection),
-			1
-		);
-	}
-	const direction =
-		allowedDirections[Math.floor(Math.random() * allowedDirections.length)];
-	const interval = setInterval(() => {
-		character.move(direction, false);
-		if (character.collision === true) {
-			clearInterval(interval);
-			setTimeout(() => moveCharacter(character, direction), 2000);
-		}
-	}, 1);
-}
+const level = 1;
 
 let LevelEntities;
 let game;
@@ -79,7 +62,8 @@ document.addEventListener('keydown', e => {
 	}
 	if (moving === false) {
 		moving = true;
-		interval = setInterval(() => assassin.move(direction, speed), 1);
+		//interval = setInterval(() => assassin.move(direction, speed), 1);
+		assassin.move(direction, speed);
 	}
 });
 
