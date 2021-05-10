@@ -121,7 +121,7 @@ export default class Character {
 		return forbiddenDirections.includes(this.direction);
 	}
 
-	move(direction, speed) {
+	move(direction, speed = false) {
 		this.direction = direction;
 		this.collision = false;
 		const step =

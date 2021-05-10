@@ -1,4 +1,8 @@
-export default function moveCharacter(character, forbiddenDirection = null) {
+export default function moveCharacter(
+	character,
+	initialPosition,
+	forbiddenDirection = null
+) {
 	const allowedDirections = ['up', 'right', 'down', 'left'];
 	if (forbiddenDirection !== null) {
 		allowedDirections.splice(
@@ -6,13 +10,35 @@ export default function moveCharacter(character, forbiddenDirection = null) {
 			1
 		);
 	}
-	const direction =
-		allowedDirections[Math.floor(Math.random() * allowedDirections.length)];
+	const randomDirection =
+		allowedDirections[getRandomIntegerTo(allowedDirections.length)];
+	const randomDistanceToTravelX = getRandomNumberFromTo(100, 400);
+	const randomDistanceToTravelY = getRandomNumberFromTo(100, 400);
 	const interval = setInterval(() => {
-		character.move(direction, false);
-		if (character.collision === true) {
+		character.move(randomDirection);
+		if (
+			character.x - initialPosition.x > randomDistanceToTravelX ||
+			character.y - initialPosition.y > randomDistanceToTravelY ||
+			character.collision === true
+		) {
 			clearInterval(interval);
-			setTimeout(() => moveCharacter(character, direction), 2000);
+			setTimeout(
+				() =>
+					moveCharacter(
+						character,
+						{x: character.x, y: character.y},
+						randomDirection
+					),
+				2000
+			);
 		}
 	}, 1);
+}
+
+function getRandomIntegerTo(max) {
+	return Math.floor(Math.random() * max);
+}
+
+function getRandomNumberFromTo(min, max) {
+	return Math.random() * (max - min) + min;
 }

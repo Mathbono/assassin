@@ -17,9 +17,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 	assassin = game.levelCharacters.assassin;
 	target = game.levelCharacters.target;
 	guards = game.levelCharacters.guards;
-	moveCharacter(target);
+	moveCharacter(target, {x: target.x, y: target.y});
 	for (let guard of guards) {
-		moveCharacter(guard);
+		moveCharacter(guard, {x: guard.x, y: guard.y});
 	}
 });
 
