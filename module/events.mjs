@@ -45,9 +45,6 @@ window.addEventListener('resize', () => {
 document.addEventListener('keydown', e => {
 	keysPressed[e.key] = true;
 	if (keysPressed[' ']) {
-		console.log('MAP: ', Map.segments);
-		console.log('X: ', assassin.x);
-		console.log('Y: ', assassin.y);
 		speed = true;
 	}
 	let direction;
@@ -62,7 +59,7 @@ document.addEventListener('keydown', e => {
 	}
 	if (moving === false) {
 		moving = true;
-		interval = setInterval(() => assassin.move(direction, speed), 1);
+		interval = setInterval(() => assassin.move(direction, speed), 5);
 	}
 });
 

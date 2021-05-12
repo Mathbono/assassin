@@ -90,13 +90,13 @@ export default class Character {
 		viewElement.setAttribute('d', curve);
 	}
 
-	detectWall() {
+	detectWall(distance = 20) {
 		const forbiddenDirections = [];
 		for (let [point, segment, limit1, limit2] of Map.segments) {
 			const characterCloseToSegment = point === 'x' ? this.x : this.y;
 			const characterBetweenLimits = point === 'x' ? this.y : this.x;
 			if (
-				Math.abs(characterCloseToSegment - segment) < 20 &&
+				Math.abs(characterCloseToSegment - segment) < distance &&
 				((limit1 < characterBetweenLimits &&
 					characterBetweenLimits < limit2) ||
 					(limit2 < characterBetweenLimits &&
@@ -118,7 +118,7 @@ export default class Character {
 				}
 			}
 		}
-		return forbiddenDirections.includes(this.direction);
+		return forbiddenDirections;
 	}
 
 	move(direction, speed = false) {
@@ -127,11 +127,11 @@ export default class Character {
 		const step =
 			speed === false
 				? this.character.baseSpeed
-				: this.character.baseSpeed + 1;
+				: this.character.baseSpeed + 2;
 		const character = document.getElementById(this.id);
 		this.x = character.cx.baseVal.value;
 		this.y = character.cy.baseVal.value;
-		if (this.detectWall() === true) {
+		if (this.detectWall().includes(this.direction) === true) {
 			this.collision = true;
 			return;
 		}
