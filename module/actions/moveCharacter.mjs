@@ -87,7 +87,7 @@ export default function moveCharacter(
 						{x: character.x, y: character.y},
 						allowedDirections
 					),
-				character.character.name === 'target' ? 0 : 1500
+				character.character.name === 'target' ? 500 : 1500
 			);
 		}
 	}, 5);
