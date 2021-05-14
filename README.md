@@ -2,12 +2,14 @@
 
 ## Jeu 2D d'assassinat
 
-Vous êtes un tueur sans foi ni loi. Votre cible vous attire inexorablement. Ce qui vous intéresse ? La somme qu'elle représente.
+Vous êtes un tueur sans foi ni loi. Le rouge vous attire inexorablement. La cible bouge. Elle représente ce rouge que vous aimez tant.
 
 ## Fonctionnalités utilisateur
 
-Le projet est en cours et est susceptible d'évoluer dans des directions inconnues
+-  Vous pouvez bouger l'assassin et accélérer avec Espace
+-  L'ennemi aura bientôt la faculté de vous repérer. Affaire à suivre !
+-  Votre cible est en jaune. On dirait qu'elle le fait exprès...
 
--  Bouger l'assassin
--  Éviter de se faire repérer
--  Tomber sur la cible pour l'éliminer
+## Lien
+
+[https://mathbono.github.io/assassin/](https://mathbono.github.io/assassin/)
