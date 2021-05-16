@@ -3,6 +3,10 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="default-src 'self' 'unsafe-inline'; child-src 'none'; object-src 'none'"
+		/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="msapplication-TileColor" content="#da532c" />
 		<meta name="msapplication-config" content="/fav/browserconfig.xml" />
@@ -29,7 +33,7 @@
 		<link rel="mask-icon" href="/fav/safari-pinned-tab.svg" color="#5bbad5" />
 		<link rel="shortcut icon" href="/fav/favicon.ico" />
 		<link rel="stylesheet" href="style/main.css" />
-		<script type="module" src="module/events.mjs"></script>
+		<script type="module" src="script/events/document.mjs"></script>
 	</head>
 	<body>
 		<h1>Assassin</h1>

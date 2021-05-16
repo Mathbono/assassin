@@ -1,3 +1,5 @@
+import {getRandomIntegerTo, getRandomNumberFromTo} from '../utilities.mjs';
+
 export default function moveCharacter(
 	character,
 	initialPosition,
@@ -91,12 +93,4 @@ export default function moveCharacter(
 			);
 		}
 	}, 5);
-}
-
-function getRandomIntegerTo(max) {
-	return Math.floor(Math.random() * max);
-}
-
-function getRandomNumberFromTo(min, max) {
-	return Math.random() * (max - min) + min;
 }
