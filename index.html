@@ -41,27 +41,20 @@
 			<button class="level" disabled></button>
 			<button class="level" disabled></button>
 		</div>
-		<section>
+		<section id="music-volume">
 			<input
 				type="range"
-				id="volume"
-				class="control-volume"
+				id="volume-control"
 				min="0"
 				max="2"
 				value="1"
-				list="gain-vals"
 				step="0.01"
-				data-action="volume"
 			/>
-			<datalist id="gain-vals">
-				<option value="0" label="min"></option>
-				<option value="2" label="max"></option>
-			</datalist>
-			<label for="volume">VOL</label>
+			<label for="volume-control">VOL</label>
 			<audio
-				id="welcome-music"
-				src="sound/Shadow of the Beast II - The Crystal Caverns.mp3"
-				crossorigin="anonymous"
+				id="home-music"
+				src="sound/shadow_of_the_beast.mp3"
+				type="audio/mpeg"
 			></audio>
 			<button
 				data-playing="false"

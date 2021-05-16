@@ -13,7 +13,7 @@ function getStylesheetRules(sheetName, selectorName = null) {
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 let audioCtx;
-const audioElement = document.getElementById('welcome-music');
+const audioElement = document.getElementById('home-music');
 let track;
 const playButton = document.getElementById('tape-controls-play');
 
@@ -28,7 +28,7 @@ playButton.addEventListener(
 			audioCtx = new AudioContext();
 			track = audioCtx.createMediaElementSource(audioElement);
 			const gainNode = audioCtx.createGain();
-			const volumeControl = document.querySelector('[data-action="volume"]');
+			const volumeControl = document.getElementById('volume-control');
 			volumeControl.addEventListener(
 				'input',
 				function () {
@@ -113,6 +113,13 @@ for (let levelElement of document.getElementsByClassName('level')) {
 		const bodyElementStyle = getStylesheetRules('main', 'body');
 		bodyElementStyle.setProperty('background-image', 'none');
 		bodyElementStyle.setProperty('background-color', 'black');
+		const audioElement = document.createElement('audio');
+		audioElement.setAttribute('id', 'footstep-sound');
+		const audioSourceElement = document.createElement('source');
+		audioSourceElement.setAttribute('src', 'sound/courir_sur_beton.wav');
+		audioSourceElement.setAttribute('type', 'audio/wav');
+		audioElement.appendChild(audioSourceElement);
+		document.body.appendChild(audioElement);
 
 		const Map = await import(`./class/Map.mjs`).then(({default: mod}) => mod);
 
@@ -161,22 +168,31 @@ for (let levelElement of document.getElementsByClassName('level')) {
 
 		document.addEventListener('keydown', e => {
 			keysPressed[e.key] = true;
+			let keyDirectionPressed = false;
 			if (keysPressed[' ']) {
 				speed = true;
+				keyDirectionPressed = true;
 			}
 			let direction;
 			if (keysPressed['ArrowUp']) {
 				direction = 'up';
+				keyDirectionPressed = true;
 			} else if (keysPressed['ArrowRight']) {
 				direction = 'right';
+				keyDirectionPressed = true;
 			} else if (keysPressed['ArrowDown']) {
 				direction = 'down';
+				keyDirectionPressed = true;
 			} else if (keysPressed['ArrowLeft']) {
 				direction = 'left';
+				keyDirectionPressed = true;
 			}
 			if (moving === false) {
 				moving = true;
-				interval = setInterval(() => assassin.move(direction, speed), 5);
+				if (keyDirectionPressed === true) {
+					document.getElementById('footstep-sound').play();
+					interval = setInterval(() => assassin.move(direction, speed), 5);
+				}
 			}
 		});
 
@@ -184,6 +200,7 @@ for (let levelElement of document.getElementsByClassName('level')) {
 			delete keysPressed[e.key];
 			moving = false;
 			speed = false;
+			document.getElementById('footstep-sound').pause();
 			clearInterval(interval);
 		});
 	});
