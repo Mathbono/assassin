@@ -1,4 +1,4 @@
-import setHomeMusic from './sound.mjs';
+import {setHomeMusic} from './sound.mjs';
 import setGame from './game.mjs';
 
 setHomeMusic();

@@ -1,4 +1,4 @@
-import {getRandomIntegerTo, getRandomNumberFromTo} from '../utilities.mjs';
+import {getRandomIntegerTo, getRandomNumberFromTo} from '../../utilities.mjs';
 
 export default function moveCharacter(
 	character,

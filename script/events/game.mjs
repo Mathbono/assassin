@@ -1,17 +1,17 @@
-import {getStylesheetRules} from '../dynamic-modules/utilities.mjs';
+import {
+	setFootstepSound,
+	playFootstepSound,
+	pauseFootstepSound
+} from './sound.mjs';
+import {getStylesheetRules} from '../utilities.mjs';
 
 export default async function setGame() {
 	document.body.innerHTML = '';
 	const bodyElementStyle = getStylesheetRules('main', 'body');
 	bodyElementStyle.setProperty('background-image', 'none');
 	bodyElementStyle.setProperty('background-color', 'black');
-	const audioElement = document.createElement('audio');
-	audioElement.setAttribute('id', 'footstep-sound');
-	const audioSourceElement = document.createElement('source');
-	audioSourceElement.setAttribute('src', '../sound/courir_sur_beton.wav');
-	audioSourceElement.setAttribute('type', 'audio/wav');
-	audioElement.appendChild(audioSourceElement);
-	document.body.appendChild(audioElement);
+
+	setFootstepSound();
 
 	const Map = await import(`../dynamic-modules/class/Map.mjs`).then(
 		({default: mod}) => mod
@@ -78,7 +78,7 @@ export default async function setGame() {
 		if (moving === false) {
 			moving = true;
 			if (keyDirectionPressed === true) {
-				document.getElementById('footstep-sound').play();
+				playFootstepSound();
 				interval = setInterval(() => assassin.move(direction, speed), 5);
 			}
 		}
@@ -88,7 +88,7 @@ export default async function setGame() {
 		delete keysPressed[e.key];
 		moving = false;
 		speed = false;
-		document.getElementById('footstep-sound').pause();
+		pauseFootstepSound();
 		clearInterval(interval);
 	});
 }

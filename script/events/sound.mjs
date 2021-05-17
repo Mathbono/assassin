@@ -1,4 +1,4 @@
-export default function setHomeMusic() {
+export function setHomeMusic() {
 	const AudioContext = window.AudioContext || window.webkitAudioContext;
 	let audioCtx;
 	const audioHomeElement = document.getElementById('home-music');
@@ -51,4 +51,22 @@ export default function setHomeMusic() {
 		},
 		false
 	);
+}
+
+export function setFootstepSound() {
+	const audioElement = document.createElement('audio');
+	audioElement.setAttribute('id', 'footstep-sound');
+	const audioSourceElement = document.createElement('source');
+	audioSourceElement.setAttribute('src', '../sound/courir_sur_beton.wav');
+	audioSourceElement.setAttribute('type', 'audio/wav');
+	audioElement.appendChild(audioSourceElement);
+	document.body.appendChild(audioElement);
+}
+
+export function playFootstepSound() {
+	document.getElementById('footstep-sound').play();
+}
+
+export function pauseFootstepSound() {
+	document.getElementById('footstep-sound').pause();
 }
