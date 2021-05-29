@@ -1,4 +1,4 @@
-export function setHomeMusic() {
+export function setMusic() {
 	const AudioContext = window.AudioContext || window.webkitAudioContext;
 	let audioCtx;
 	const audioHomeElement = document.getElementById('home-music');

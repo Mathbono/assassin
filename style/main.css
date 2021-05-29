@@ -20,6 +20,7 @@ h1 {
 	margin: 0;
 	font-family: Bebas_Neue;
 	word-break: keep-all;
+	user-select: none;
 }
 #levels {
 	display: flex;

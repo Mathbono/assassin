@@ -1,52 +1,62 @@
-import {setHomeMusic} from './sound.mjs';
-import setGame from './game.mjs';
+import {getStylesheetRules} from '../utilities.mjs';
 
-setHomeMusic();
+export default function setDocument(levelToLoad) {
+	/*
+	document.body.innerHTML = '';
+	const bodyElementStyle = getStylesheetRules('main', 'body');
+	bodyElementStyle.setProperty('background', 'url('../img/eyes-target.jpg') no-repeat fixed bottom / cover;');
+	bodyElementStyle.setProperty('background-color', 'default');
+	*/
 
-let i = 0;
-for (let levelElement of document.getElementsByClassName('level')) {
-	i++;
-	levelElement.id = `l${i}`;
-	levelElement.appendChild(document.createTextNode(i));
+	const title = document.createElement('h1');
+	title.appendChild(document.createTextNode('Assassin'));
+	document.body.appendChild(title);
 
-	window.addEventListener('scroll', () => {
-		const middleScreen = window.innerHeight / 2;
-		const levelElementTop = levelElement.getBoundingClientRect().top;
+	const levelButtonsElement = document.createElement('div');
+	levelButtonsElement.setAttribute('id', 'levels');
+	for (let i = 1; i <= 6; i++) {
+		const levelButtonElement = document.createElement('button');
+		levelButtonElement.setAttribute('class', 'level');
+		if (i === levelToLoad) {
+		} else {
+			levelButtonElement.setAttribute('disabled', '');
+		}
+		levelButtonsElement.appendChild(levelButtonElement);
+	}
+	document.body.appendChild(levelButtonsElement);
 
-		if (levelElementTop > middleScreen) {
-			levelElement.style.opacity = 1;
-		}
-		if (levelElementTop < middleScreen) {
-			levelElement.style.opacity = 0.9;
-		}
-		if (levelElementTop < middleScreen - 20) {
-			levelElement.style.opacity = 0.8;
-		}
-		if (levelElementTop < middleScreen - 40) {
-			levelElement.style.opacity = 0.7;
-		}
-		if (levelElementTop < middleScreen - 60) {
-			levelElement.style.opacity = 0.6;
-		}
-		if (levelElementTop < middleScreen - 80) {
-			levelElement.style.opacity = 0.5;
-		}
-		if (levelElementTop < middleScreen - 100) {
-			levelElement.style.opacity = 0.4;
-		}
-		if (levelElementTop < middleScreen - 120) {
-			levelElement.style.opacity = 0.3;
-		}
-		if (levelElementTop < middleScreen - 140) {
-			levelElement.style.opacity = 0.2;
-		}
-		if (levelElementTop < middleScreen - 160) {
-			levelElement.style.opacity = 0.1;
-		}
-		if (levelElementTop < middleScreen - 180) {
-			levelElement.style.opacity = 0;
-		}
-	});
+	const musicSectionElement = document.createElement('section');
+	musicSectionElement.setAttribute('id', 'music-volume');
 
-	levelElement.addEventListener('click', setGame);
+	const musicInputElement = document.createElement('input');
+	musicInputElement.setAttribute('type', 'range');
+	musicInputElement.setAttribute('id', 'volume-control');
+	musicInputElement.setAttribute('min', '0');
+	musicInputElement.setAttribute('max', '2');
+	musicInputElement.setAttribute('value', '1');
+	musicInputElement.setAttribute('step', '0.01');
+	musicSectionElement.appendChild(musicInputElement);
+
+	const musicLabelElement = document.createElement('label');
+	musicLabelElement.setAttribute('for', 'volume-control');
+	musicLabelElement.appendChild(document.createTextNode('VOL'));
+	musicSectionElement.appendChild(musicLabelElement);
+
+	const musicAudioElement = document.createElement('audio');
+	musicAudioElement.setAttribute('id', 'home-music');
+	musicAudioElement.setAttribute('src', 'sound/shadow_of_the_beast.mp3');
+	musicAudioElement.setAttribute('type', 'audio/mpeg');
+	musicSectionElement.appendChild(musicAudioElement);
+
+	const musicButtonElement = document.createElement('button');
+	musicButtonElement.setAttribute('data-playing', 'false');
+	musicButtonElement.setAttribute('id', 'tape-controls-play');
+	musicButtonElement.setAttribute('role', 'switch');
+	musicButtonElement.setAttribute('aria-checked', 'false');
+	const musicSpanElement = document.createElement('span');
+	musicSpanElement.appendChild(document.createTextNode('Play/Pause'));
+	musicButtonElement.appendChild(musicSpanElement);
+	musicSectionElement.appendChild(musicButtonElement);
+
+	document.body.appendChild(musicSectionElement);
 }
