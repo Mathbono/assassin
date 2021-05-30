@@ -1,6 +1,7 @@
 import setDocument from './document.mjs';
 import {setMusic} from './sound.mjs';
 import setGame from './game.mjs';
+import passwords from '../auth.mjs';
 import {getStylesheetRules} from '../utilities.mjs';
 
 setDocument();
@@ -63,7 +64,10 @@ for (let levelButtonElement of document.getElementsByClassName('level')) {
 		if (level > 1) {
 			const levelPasswordInputElement = document.createElement('input');
 			levelPasswordInputElement.setAttribute('id', 'password');
-			levelPasswordInputElement.setAttribute('placeholder', 'Mot de passe');
+			levelPasswordInputElement.setAttribute(
+				'placeholder',
+				'Mot de passe ?'
+			);
 			document
 				.getElementById('levels')
 				.insertBefore(levelPasswordInputElement, e.currentTarget);
@@ -81,19 +85,13 @@ for (let levelButtonElement of document.getElementsByClassName('level')) {
 			);
 			levelPasswordInputElement.addEventListener('keydown', async e => {
 				if (e.key === 'Enter') {
-					const input = e.currentTarget.value.trim().toLowerCase();
-					try {
-						let response = await fetch('../../doc/password.txt', {
-							mode: 'no-cors'
-						});
-						let password = await response.text();
-						if (input === atob(password.split('\n')[level - 2])) {
-							setGame(level);
-						} else {
-							alert('Perdu !');
-						}
-					} catch (e) {
-						alert('Le niveau est momentanément indisponible');
+					if (
+						e.currentTarget.value.trim().toLowerCase() ===
+						atob(passwords[level - 2])
+					) {
+						setGame(level);
+					} else {
+						e.currentTarget.value = 'Perdu !';
 					}
 				}
 			});
