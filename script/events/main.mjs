@@ -1,8 +1,9 @@
 import setDocument from './document.mjs';
 import {setMusic} from './sound.mjs';
 import setGame from './game.mjs';
+import {getStylesheetRules} from '../utilities.mjs';
 
-setDocument(1);
+setDocument();
 setMusic();
 
 let i = 0;
@@ -12,6 +13,9 @@ for (let levelButtonElement of document.getElementsByClassName('level')) {
 	levelButtonElement.appendChild(document.createTextNode(i));
 
 	window.addEventListener('scroll', () => {
+		if (document.getElementById('password') !== null) {
+			document.getElementById('password').remove();
+		}
 		const middleScreen = window.innerHeight / 2;
 		const levelButtonElementTop =
 			levelButtonElement.getBoundingClientRect().top;
@@ -51,5 +55,34 @@ for (let levelButtonElement of document.getElementsByClassName('level')) {
 		}
 	});
 
-	levelButtonElement.addEventListener('click', setGame);
+	document.getElementById('l1').addEventListener('click', setGame);
+
+	levelButtonElement.addEventListener('click', e => {
+		if (document.getElementById('password') !== null) {
+			document.getElementById('password').remove();
+		}
+		const levelPasswordInputElement = document.createElement('input');
+		levelPasswordInputElement.setAttribute('id', 'password');
+		levelPasswordInputElement.setAttribute('placeholder', 'Mot de passe');
+		document
+			.getElementById('levels')
+			.insertBefore(levelPasswordInputElement, e.currentTarget);
+		const levelPasswordInputElementStyle = getStylesheetRules(
+			'main',
+			'#password'
+		);
+		levelPasswordInputElementStyle.setProperty(
+			'top',
+			e.currentTarget.getBoundingClientRect().top + window.scrollY + 'px'
+		);
+		levelPasswordInputElementStyle.setProperty(
+			'left',
+			e.currentTarget.getBoundingClientRect().left + 'px'
+		);
+		levelPasswordInputElement.addEventListener('keydown', e => {
+			if (e.key === 'Enter') {
+				console.log(e.currentTarget.value);
+			}
+		});
+	});
 }

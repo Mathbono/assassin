@@ -36,6 +36,9 @@ h1 {
 	text-align: center;
 	font-weight: bold;
 }
+#password {
+	position: absolute;
+}
 #music-volume {
 	position: fixed;
 	left: 10px;
@@ -60,6 +63,9 @@ svg {
 		font-size: 1.5rem;
 		margin: 10px;
 	}
+	#password {
+		width: 100px;
+	}
 }
 /* Smartphone en paysage, tablette en portrait, petite tablette en paysage */
 @media all and (min-width: 480px) {
@@ -73,6 +79,9 @@ svg {
 		font-size: 2rem;
 		margin: 20px;
 	}
+	#password {
+		width: 150px;
+	}
 }
 /* Tablette en paysage, ordinateur de taille petite et moyenne */
 @media all and (min-width: 960px) {
@@ -82,6 +91,9 @@ svg {
 		line-height: 200px;
 		font-size: 3rem;
 		margin: 50px;
+	}
+	#password {
+		width: 200px;
 	}
 }
 /* Ordinateur de grande taille */

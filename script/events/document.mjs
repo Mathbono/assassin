@@ -1,6 +1,6 @@
 import {getStylesheetRules} from '../utilities.mjs';
 
-export default function setDocument(levelToLoad) {
+export default function setDocument() {
 	/*
 	document.body.innerHTML = '';
 	const bodyElementStyle = getStylesheetRules('main', 'body');
@@ -17,10 +17,6 @@ export default function setDocument(levelToLoad) {
 	for (let i = 1; i <= 6; i++) {
 		const levelButtonElement = document.createElement('button');
 		levelButtonElement.setAttribute('class', 'level');
-		if (i === levelToLoad) {
-		} else {
-			levelButtonElement.setAttribute('disabled', '');
-		}
 		levelButtonsElement.appendChild(levelButtonElement);
 	}
 	document.body.appendChild(levelButtonsElement);
