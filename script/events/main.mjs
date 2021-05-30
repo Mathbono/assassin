@@ -55,34 +55,50 @@ for (let levelButtonElement of document.getElementsByClassName('level')) {
 		}
 	});
 
-	document.getElementById('l1').addEventListener('click', setGame);
-
 	levelButtonElement.addEventListener('click', e => {
 		if (document.getElementById('password') !== null) {
 			document.getElementById('password').remove();
 		}
-		const levelPasswordInputElement = document.createElement('input');
-		levelPasswordInputElement.setAttribute('id', 'password');
-		levelPasswordInputElement.setAttribute('placeholder', 'Mot de passe');
-		document
-			.getElementById('levels')
-			.insertBefore(levelPasswordInputElement, e.currentTarget);
-		const levelPasswordInputElementStyle = getStylesheetRules(
-			'main',
-			'#password'
-		);
-		levelPasswordInputElementStyle.setProperty(
-			'top',
-			e.currentTarget.getBoundingClientRect().top + window.scrollY + 'px'
-		);
-		levelPasswordInputElementStyle.setProperty(
-			'left',
-			e.currentTarget.getBoundingClientRect().left + 'px'
-		);
-		levelPasswordInputElement.addEventListener('keydown', e => {
-			if (e.key === 'Enter') {
-				console.log(e.currentTarget.value);
-			}
-		});
+		const level = parseInt(e.currentTarget.id.slice(1));
+		if (level > 1) {
+			const levelPasswordInputElement = document.createElement('input');
+			levelPasswordInputElement.setAttribute('id', 'password');
+			levelPasswordInputElement.setAttribute('placeholder', 'Mot de passe');
+			document
+				.getElementById('levels')
+				.insertBefore(levelPasswordInputElement, e.currentTarget);
+			const levelPasswordInputElementStyle = getStylesheetRules(
+				'main',
+				'#password'
+			);
+			levelPasswordInputElementStyle.setProperty(
+				'top',
+				e.currentTarget.getBoundingClientRect().top + window.scrollY + 'px'
+			);
+			levelPasswordInputElementStyle.setProperty(
+				'left',
+				e.currentTarget.getBoundingClientRect().left + 'px'
+			);
+			levelPasswordInputElement.addEventListener('keydown', async e => {
+				if (e.key === 'Enter') {
+					const input = e.currentTarget.value.trim().toLowerCase();
+					try {
+						let response = await fetch('../../doc/password.txt', {
+							mode: 'no-cors'
+						});
+						let password = await response.text();
+						if (input === atob(password.split('\n')[level - 2])) {
+							setGame(level);
+						} else {
+							alert('Perdu !');
+						}
+					} catch (e) {
+						alert('Le niveau est momentanément indisponible');
+					}
+				}
+			});
+		} else {
+			setGame(1);
+		}
 	});
 }

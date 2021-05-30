@@ -5,7 +5,7 @@ import {
 } from './sound.mjs';
 import {getStylesheetRules} from '../utilities.mjs';
 
-export default async function setGame() {
+export default async function setGame(level) {
 	document.body.innerHTML = '';
 	const bodyElementStyle = getStylesheetRules('main', 'body');
 	bodyElementStyle.setProperty('background-image', 'none');
@@ -18,7 +18,7 @@ export default async function setGame() {
 	);
 
 	const LevelEntities = await import(
-		`../dynamic-modules/class/levels/Level${this.id.slice(1)}.mjs`
+		`../dynamic-modules/class/levels/Level${level}.mjs`
 	).then(({default: mod}) => mod);
 
 	const game = new Map(new LevelEntities());
