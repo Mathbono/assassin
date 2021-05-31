@@ -1,8 +1,11 @@
 import {
 	setFootstepSound,
 	playFootstepSound,
-	pauseFootstepSound
+	pauseFootstepSound,
+	setStabSound,
+	playStabSound
 } from './sound.mjs';
+import passwords from '../auth.mjs';
 import {getStylesheetRules} from '../utilities.mjs';
 
 export default async function setGame(level) {
@@ -12,6 +15,7 @@ export default async function setGame(level) {
 	bodyElementStyle.setProperty('background-color', 'black');
 
 	setFootstepSound();
+	setStabSound();
 
 	const Map = await import(`../dynamic-modules/class/Map.mjs`).then(
 		({default: mod}) => mod
@@ -44,13 +48,19 @@ export default async function setGame(level) {
 		const segments = game.levelCharacters.getPointsLandscape();
 		for (let segment of segments) {
 			const id = segments.indexOf(segment) + 1;
-			const pathElement = document.getElementById('path' + id);
-			game.setPolylineElement(pathElement, segment);
+			const characterViewPathElement = document.getElementById('path' + id);
+			game.setWallsPolylineElement(characterViewPathElement, segment);
 		}
 		game.setRenderLandscape();
-		target.setPathElement(document.getElementById(target.id + 'view'), true);
+		target.setCharacterViewPathElement(
+			document.getElementById(target.id + 'view'),
+			true
+		);
 		for (let guard of guards) {
-			guard.setPathElement(document.getElementById(guard.id + 'view'), true);
+			guard.setCharacterViewPathElement(
+				document.getElementById(guard.id + 'view'),
+				true
+			);
 		}
 	});
 
@@ -79,7 +89,35 @@ export default async function setGame(level) {
 			moving = true;
 			if (keyDirectionPressed === true) {
 				playFootstepSound();
-				interval = setInterval(() => assassin.move(direction, speed), 5);
+				interval = setInterval(() => {
+					assassin.move(direction, speed);
+					if (
+						Math.abs(assassin.x - target.x) < 15 &&
+						Math.abs(assassin.y - target.y) < 15
+					) {
+						pauseFootstepSound();
+						playStabSound();
+						const wonDivElement = document.createElement('div');
+						wonDivElement.setAttribute('id', 'won');
+						wonDivElement.appendChild(
+							document.createTextNode(
+								'Gagné ! Mot de passe pour la mission suivante : ' +
+									atob(passwords[level - 1]).toUpperCase() +
+									'. Conservez-le bien ! '
+							)
+						);
+						const terminateButtonElement =
+							document.createElement('button');
+						terminateButtonElement.appendChild(
+							document.createTextNode('Terminer')
+						);
+						wonDivElement.appendChild(terminateButtonElement);
+						document.body.appendChild(wonDivElement);
+						terminateButtonElement.addEventListener('click', () => {
+							document.location.reload();
+						});
+					}
+				}, 5);
 			}
 		}
 	});

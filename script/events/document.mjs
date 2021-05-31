@@ -1,12 +1,12 @@
 import {getStylesheetRules} from '../utilities.mjs';
 
 export default function setDocument() {
-	/*
 	document.body.innerHTML = '';
 	const bodyElementStyle = getStylesheetRules('main', 'body');
-	bodyElementStyle.setProperty('background', 'url('../img/eyes-target.jpg') no-repeat fixed bottom / cover;');
-	bodyElementStyle.setProperty('background-color', 'default');
-	*/
+	bodyElementStyle.setProperty(
+		'background',
+		'url("../../img/eyes-target.jpg") no-repeat fixed bottom / cover'
+	);
 
 	const title = document.createElement('h1');
 	title.appendChild(document.createTextNode('Assassin'));

@@ -70,3 +70,17 @@ export function playFootstepSound() {
 export function pauseFootstepSound() {
 	document.getElementById('footstep-sound').pause();
 }
+
+export function setStabSound() {
+	const audioElement = document.createElement('audio');
+	audioElement.setAttribute('id', 'stab-sound');
+	const audioSourceElement = document.createElement('source');
+	audioSourceElement.setAttribute('src', '../sound/impact_sanglant.mp3');
+	audioSourceElement.setAttribute('type', 'audio/mpeg');
+	audioElement.appendChild(audioSourceElement);
+	document.body.appendChild(audioElement);
+}
+
+export function playStabSound() {
+	document.getElementById('stab-sound').play();
+}

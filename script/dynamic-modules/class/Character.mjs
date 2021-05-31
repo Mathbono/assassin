@@ -27,32 +27,34 @@ export default class Character {
 		}
 		this.x = xPercent;
 		this.y = 100 - yPercent;
-		this.i = 0;
 		this.direction = 'right';
 		this.collision = false;
 		this.r = 1.5;
 		this.fill = character.color;
 		if (this.character.name !== 'assassin') {
-			const viewElement = document.createElementNS(svgns, 'path');
-			viewElement.setAttribute('id', this.id + 'view');
-			this.setPathElement(viewElement, true);
-			viewElement.setAttribute('fill', 'rgb(0, 255, 0, .3)');
-			document.querySelector('svg').appendChild(viewElement);
+			const characterViewPathElement = document.createElementNS(
+				svgns,
+				'path'
+			);
+			characterViewPathElement.setAttribute('id', this.id + 'view');
+			this.setCharacterViewPathElement(characterViewPathElement, true);
+			characterViewPathElement.setAttribute('fill', 'rgb(0, 255, 0, .3)');
+			document.querySelector('svg').appendChild(characterViewPathElement);
 		}
-		this.createCircleElement();
+		this.createCharacterCircleElement();
 	}
 
-	createCircleElement() {
-		const characterElement = document.createElementNS(svgns, 'circle');
-		characterElement.setAttribute('id', this.id);
-		characterElement.setAttribute('cx', this.x + '%');
-		characterElement.setAttribute('cy', this.y + '%');
-		characterElement.setAttribute('r', this.r + '%');
-		characterElement.setAttribute('fill', this.fill);
-		document.querySelector('svg').appendChild(characterElement);
+	createCharacterCircleElement() {
+		const characterCircleElement = document.createElementNS(svgns, 'circle');
+		characterCircleElement.setAttribute('id', this.id);
+		characterCircleElement.setAttribute('cx', this.x + '%');
+		characterCircleElement.setAttribute('cy', this.y + '%');
+		characterCircleElement.setAttribute('r', this.r + '%');
+		characterCircleElement.setAttribute('fill', this.fill);
+		document.querySelector('svg').appendChild(characterCircleElement);
 	}
 
-	setPathElement(viewElement, stop = false) {
+	setCharacterViewPathElement(viewPathElement, stop = false) {
 		let characterX;
 		let characterY;
 		if (stop === true) {
@@ -87,7 +89,7 @@ export default class Character {
 			default:
 				return;
 		}
-		viewElement.setAttribute('d', curve);
+		viewPathElement.setAttribute('d', curve);
 	}
 
 	detectWall(distance = 20) {
@@ -154,7 +156,9 @@ export default class Character {
 		character.cx.baseVal.value = this.x;
 		character.cy.baseVal.value = this.y;
 		if (this.character.name !== 'assassin') {
-			this.setPathElement(document.getElementById(this.id + 'view'));
+			this.setCharacterViewPathElement(
+				document.getElementById(this.id + 'view')
+			);
 		}
 	}
 }
