@@ -10,6 +10,7 @@ body {
 	margin: 1% auto 0;
 	width: 97%;
 	height: 95vh;
+	background: url('../img/eyes-target.jpg') no-repeat fixed bottom / cover;
 }
 h1 {
 	position: fixed;
